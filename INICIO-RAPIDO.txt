@@ -1,0 +1,70 @@
+GUÍA RÁPIDA DE INICIO - SUPERASEO
+==================================
+
+🚀 PASO 1: Instalar dependencias
+---------------------------------
+Abre PowerShell en la carpeta del proyecto y ejecuta:
+
+npm install
+
+Espera a que termine la instalación...
+
+🚀 PASO 2: Configurar MongoDB
+------------------------------
+1. Ve a https://www.mongodb.com/cloud/atlas
+2. Crea una cuenta gratis
+3. Crea un cluster gratis
+4. Crea un usuario y obtén la cadena de conexión
+5. Copia la URL: mongodb+srv://usuario:contraseña@cluster...
+
+🚀 PASO 3: Crear archivo .env
+------------------------------
+1. En la carpeta raíz, crea un archivo llamado ".env"
+2. Pega esto (reemplaza con tu URL de MongoDB):
+
+MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/superaseo?retryWrites=true&w=majority
+PORT=3000
+
+💾 Guarda el archivo
+
+🚀 PASO 4: Iniciar el servidor
+-------------------------------
+En PowerShell, ejecuta:
+
+npm start
+
+Deberías ver:
+✓ Conectado a MongoDB
+🚀 Servidor corriendo en http://localhost:3000
+
+🚀 PASO 5: Acceder a la aplicación
+-----------------------------------
+Abre tu navegador y ve a:
+
+http://localhost:3000/
+
+¡Listo! Ya está funcionando 🎉
+
+📱 ACCESOS IMPORTANTES
+---------------------
+- Página Principal: http://localhost:3000/
+- Catálogo: http://localhost:3000/pages/catalogo.html
+- Blog: http://localhost:3000/pages/blog.html
+- Admin: http://localhost:3000/pages/admin.html
+  - Usuario: Mhiguita
+  - Contraseña: 43549040
+
+📁 AGREGAR IMÁGENES
+-------------------
+1. Copia tus imágenes a: /public/assets/images/
+2. En el panel admin, cuando crees productos, ingresa el nombre de la imagen
+   Ejemplo: desinfectante.jpg
+
+🆘 SI NO FUNCIONA
+------------------
+1. Abre la consola del navegador (F12)
+2. Revisa si hay errores en rojo
+3. Asegúrate que el servidor esté corriendo (npm start)
+4. Verifica que MongoDB esté configurado correctamente
+
+¡Listo! Tu catálogo de SuperAseo está en línea 🧹✨

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo - SuperAseo</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Navegación -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <a href="../index.html">🧹 SuperAseo</a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="../index.html" class="nav-link">Inicio</a></li>
+        <li><a href="catalogo.html" class="nav-link">Catálogo</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="admin.html" class="nav-link admin-link">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Encabezado -->
+  <div class="page-header">
+    <h1>Catálogo de Productos</h1>
+    <p>Descubre todos nuestros productos de aseo y limpieza</p>
+  </div>
+
+  <div class="container">
+    <!-- Controles de búsqueda y filtro -->
+    <div class="catalog-controls">
+      <div class="search-bar">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar productos..." 
+          class="search-input"
+        >
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <select id="categoryFilter" class="filter-select">
+        <option value="">Todas las categorías</option>
+      </select>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="products-grid" id="productsGrid">
+      <!-- Se llena con JavaScript -->
+    </div>
+
+    <!-- Mensaje cuando no hay resultados -->
+    <div id="noResults" class="no-results" style="display: none;">
+      <p>No se encontraron productos. Intenta con otra búsqueda.</p>
+    </div>
+  </div>
+
+  <!-- Modal de detalles del producto -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body" id="modalBody">
+        <!-- Se llena con JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 SuperAseo. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="../js/navbar.js"></script>
+  <script src="../js/catalogo.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "superaseo-web",
+  "version": "1.0.0",
+  "description": "Catálogo web para vendedora de productos de aseo y limpieza",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "keywords": [
+    "aseo",
+    "limpieza",
+    "catálogo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "form-data": "^4.0.5",
+    "mongoose": "^7.5.0",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2"
+  }
+}

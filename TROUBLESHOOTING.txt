@@ -1,0 +1,336 @@
+🆘 GUÍA DE SOLUCIÓN DE PROBLEMAS - SUPERASEO
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: "npm install" no funciona
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error "npm is not recognized"
+- Error al ejecutar npm install
+
+Causas posibles:
+1. Node.js no está instalado
+
+Soluciones:
+1. Instala Node.js desde https://nodejs.org/
+2. Reinicia PowerShell después de instalar
+3. Verifica que se instaló: npm --version
+4. Intenta npm install de nuevo
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: "Cannot find module 'express'"
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error al ejecutar npm start
+- Message: "Cannot find module..."
+
+Causas:
+- node_modules no se instaló correctamente
+- Falta ejecutar npm install
+
+Soluciones:
+1. Abre PowerShell en la carpeta del proyecto
+2. Ejecuta: npm install
+3. Espera a que termine
+4. Ejecuta: npm start
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: "Cannot connect to MongoDB"
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error: "MongoNetworkError"
+- Mensaje: "connect ENOTFOUND"
+- Página no carga datos
+
+Causas posibles:
+1. URL de MongoDB incorrecta
+2. Usuario o contraseña incorrectos
+3. IP no agregada en MongoDB Atlas
+4. MongoDB Atlas account no verificada
+
+Soluciones (en orden):
+1. Verifica el .env file existe en la carpeta raíz
+2. Abre .env y revisa la URL
+3. La URL debe verse así:
+   mongodb+srv://usuario:contraseña@cluster.mongodb.net/superaseo...
+
+4. Verifica usuario y contraseña (exactos)
+5. Ve a https://www.mongodb.com/cloud/atlas
+6. Login con tu cuenta
+7. Click en "Network Access"
+8. Verifica que tu IP esté en la lista (0.0.0.0/0 es más flexible)
+9. Si no está, click "Add IP Address"
+10. Si sigue sin funcionar:
+    - Copia la URL exacta de MongoDB
+    - Pega en .env (reemplaza todo)
+    - Guarda .env
+    - Ejecuta: npm start de nuevo
+
+Prueba rápida:
+- En el servidor, deberías ver: "✓ Conectado a MongoDB"
+- Si ves un error, MongoDB no está conectada
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: "Port 3000 is already in use"
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error: "listen EADDRINUSE :::3000"
+- Algo ya está usando el puerto 3000
+
+Causas:
+- Otra aplicación usa el puerto 3000
+- Servidor anterior no cerró correctamente
+
+Soluciones:
+1. Opción A: Cambiar puerto
+   - Abre .env
+   - Cambia PORT=3000 a PORT=3001
+   - Guarda
+   - Ejecuta npm start
+   - Accede a http://localhost:3001
+
+2. Opción B: Liberar puerto
+   - Abre PowerShell como Administrador
+   - Ejecuta: netstat -ano | findstr :3000
+   - Busca el PID (número)
+   - Ejecuta: taskkill /PID [número] /F
+   - Intenta npm start de nuevo
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Página no carga (ERR_CONNECTION_REFUSED)
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error: "Conexión rechazada"
+- localhost:3000 no responde
+- Página en blanco
+
+Causas:
+1. El servidor no está corriendo
+2. Puerto incorrecto
+
+Soluciones:
+1. Abre PowerShell en la carpeta del proyecto
+2. Verifica que ves el mensaje:
+   "🚀 Servidor corriendo en http://localhost:3000"
+3. Si no lo ves, ejecuta: npm start
+4. Espera 2-3 segundos
+5. Actualiza el navegador (F5 o Ctrl+Shift+R)
+6. Si sigue sin funcionar:
+   - Cierra el terminal (Ctrl+C)
+   - Abre uno nuevo
+   - Ejecuta: npm start
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Los productos no aparecen en el catálogo
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Página de catálogo carga pero vacía
+- "No se encontraron productos"
+- Grid está vacío
+
+Causas:
+1. MongoDB no conectada
+2. Colección vacía
+3. Error en JavaScript
+
+Soluciones:
+1. Abre la consola (F12 en navegador)
+2. Ve a la pestaña "Console"
+3. Revisa si hay errores rojos
+4. Si hay errores que mencionen "fetch" o "mongodb":
+   - MongoDB no está conectada (ver problema anterior)
+
+5. Si no hay errores pero no aparecen productos:
+   - Abre MongoDB Atlas
+   - Ve a Collections
+   - Verifica que haya documentos en la colección "productos"
+   - Si está vacía, ejecuta npm start de nuevo (crea datos iniciales)
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Las imágenes no se cargan
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Solo ve el emoji 📦 en lugar de imagen
+- Imágenes en admin tampoco cargan
+
+Causas:
+1. Archivo de imagen no existe
+2. Nombre de imagen es incorrecto
+3. Carpeta /assets/images/ no existe
+
+Soluciones:
+1. Verifica que carpeta existe:
+   /public/assets/images/
+   
+2. Coloca tus imágenes en esa carpeta
+   
+3. En el panel admin, cuando crees un producto:
+   - Campo "Nombre imagen": escribe EXACTAMENTE el nombre del archivo
+   - Ej: desinfectante.jpg (con la extensión)
+   
+4. Los formatos soportados son:
+   - .jpg / .jpeg
+   - .png
+   - .gif
+   - .webp
+   
+5. Recomendación de tamaño:
+   - Ancho: 400px mínimo, 800px máximo
+   - Alto: Igual que ancho (cuadrada)
+   - Peso: máximo 2MB
+
+6. Después de agregar imágenes:
+   - Guarda el producto
+   - Recarga la página
+   - Las imágenes deberían aparecer
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Panel Admin pide login constantemente
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Ingresa credenciales correctas
+- Entra un momento pero luego lo saca
+- Session no persiste
+
+Causas:
+- localStorage se limpió
+- Browser no acepta localStorage
+
+Soluciones:
+1. Abre la consola (F12)
+2. Ve a "Application" > "Local Storage"
+3. Verifica que exista "adminToken"
+
+Si no está:
+1. Cierra todas las pestañas de localhost
+2. Abre localhost:3000 fresh
+3. Intenta login de nuevo
+
+Si sigue sin funcionar:
+1. Comprueba que el browser permite localStorage
+2. Intenta en Chrome (más compatible)
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Búsqueda no funciona en Catálogo
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Escribo en el buscador pero no filtra
+- Todos los productos permanecen visibles
+
+Causas:
+1. JavaScript no se cargó
+2. Error en catalogo.js
+
+Soluciones:
+1. Abre consola (F12)
+2. Revisa si hay errores en rojo
+3. Si hay error "catalogo.js not found":
+   - Verifica que existe: /public/js/catalogo.js
+   - Reinicia servidor
+
+4. Si no hay errores:
+   - Recarga la página (Ctrl+Shift+R - fuerza caché)
+   - Intenta buscar de nuevo
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: El menú hamburguesa no funciona en mobile
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- En mobile, el hamburguesa no abre menú
+- Menú se ve pegado
+
+Causas:
+1. navbar.js no se cargó
+2. Error en CSS
+
+Soluciones:
+1. Verifica que navbar.js esté en todas las páginas
+2. Abre consola (F12)
+3. Revisa si hay errores
+4. Recarga con Ctrl+Shift+R
+5. Prueba en otro navegador
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: Modal no se abre o está buggeado
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Click en "Ver Más" no abre nada
+- Modal abierto no se cierra
+- Modal vacío
+
+Causas:
+1. Error en JavaScript
+2. Elemento modal no existe
+
+Soluciones:
+1. Abre consola (F12)
+2. Revisa errores
+3. Recarga página con Ctrl+Shift+R
+4. Verifica que #productModal existe en HTML
+
+═════════════════════════════════════════════════════════════
+
+❌ PROBLEMA: CORS Error (Cross-Origin)
+─────────────────────────────────────────────────────────────
+
+Síntomas:
+- Error en consola: "CORS policy"
+- API no responde
+- Productos no cargan
+
+Nota: El servidor ya tiene CORS configurado, pero si instalas
+otra cosa, asegúrate que el servidor tenga:
+
+app.use(cors());
+
+en el server.js
+
+═════════════════════════════════════════════════════════════
+
+✅ ÚLTIMA OPCIÓN: Reset Completo
+─────────────────────────────────────────────────────────────
+
+Si nada funciona, intenta esto:
+
+1. Cierra todo (terminal, navegador)
+2. Abre terminal en la carpeta
+3. Ejecuta: rmdir /s node_modules (elimina node_modules)
+4. Ejecuta: npm install (reinstala todo)
+5. Verifica .env existe y es correcto
+6. Ejecuta: npm start
+7. Abre http://localhost:3000
+
+═════════════════════════════════════════════════════════════
+
+📞 SI NADA FUNCIONA:
+
+1. Copia el error completo (todo lo que dice)
+2. Busca en Google: el error + "nodejs"
+3. Revisa los logs del servidor (terminal)
+4. Abre la consola del navegador (F12) y revisa errores
+5. Recarga con Ctrl+Shift+R (fuerza caché limpia)
+
+═════════════════════════════════════════════════════════════
+
+¡Cualquier duda, prueba desactivar caché y recargar! 🔄
