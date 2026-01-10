@@ -2,7 +2,8 @@
 // MÓDULO ADMINISTRADOR
 // ====================================
 
-const API_URL = '/api';
+const API_URL = `${window.location.origin}/api`;
+
 
 let adminAutenticado = false;
 let productoEnEdicion = null;
