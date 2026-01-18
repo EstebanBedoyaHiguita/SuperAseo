@@ -14,12 +14,99 @@ async function cargarProductos() {
   try {
     const response = await fetch(`${API_URL}/productos`);
     const data = await response.json();
-    productosActuales = data;
-    productosFiltrados = data;
+    
+    // Si no hay productos, usar datos de ejemplo
+    if (!data || data.length === 0) {
+      console.log('⚠️ No hay productos, cargando datos de ejemplo');
+      productosActuales = [
+        {
+          _id: '1',
+          nombre: 'Desinfectante Multiusos',
+          imagen: 'https://via.placeholder.com/300x300?text=Desinfectante',
+          descripcion: 'Desinfectante potente para limpiar y desinfectar múltiples superficies del hogar. Elimina 99.9% de bacterias y virus. Aroma fresco a limón.',
+          categoria: 'Desinfectantes',
+          tamano: '500ml',
+          valor: 8500
+        },
+        {
+          _id: '2',
+          nombre: 'Desinfectante Multiusos 1L',
+          imagen: 'https://via.placeholder.com/300x300?text=Desinfectante+1L',
+          descripcion: 'Desinfectante potente para limpiar y desinfectar múltiples superficies del hogar. Botella grande de 1 litro.',
+          categoria: 'Desinfectantes',
+          tamano: '1000ml',
+          valor: 14500
+        },
+        {
+          _id: '3',
+          nombre: 'Limpiador de Pisos',
+          imagen: 'https://via.placeholder.com/300x300?text=Limpiador+Pisos',
+          descripcion: 'Limpiador especializado para pisos de cerámica y mármol. Deja un brillo impecable sin dejar residuos.',
+          categoria: 'Limpiadores',
+          tamano: '750ml',
+          valor: 9500
+        },
+        {
+          _id: '4',
+          nombre: 'Jabón Líquido para Manos',
+          imagen: 'https://via.placeholder.com/300x300?text=Jabon+Manos',
+          descripcion: 'Jabón líquido suave y espumoso para lavar manos. Dermatológicamente probado, humecta la piel.',
+          categoria: 'Jabones',
+          tamano: '250ml',
+          valor: 4500
+        },
+        {
+          _id: '5',
+          nombre: 'Detergente Ropa',
+          imagen: 'https://via.placeholder.com/300x300?text=Detergente',
+          descripcion: 'Detergente potente para ropa blanca y de color. Elimina manchas difíciles. Aroma fresco y duradero.',
+          categoria: 'Detergentes',
+          tamano: '500ml',
+          valor: 6500
+        }
+      ];
+    } else {
+      productosActuales = data;
+    }
+    
+    productosFiltrados = productosActuales;
     mostrarProductos();
     cargarCategorias();
   } catch (error) {
     console.error('Error cargando productos:', error);
+    // Si hay error en la solicitud, usar datos de ejemplo
+    productosActuales = [
+      {
+        _id: '1',
+        nombre: 'Desinfectante Multiusos',
+        imagen: 'https://via.placeholder.com/300x300?text=Desinfectante',
+        descripcion: 'Desinfectante potente para limpiar y desinfectar múltiples superficies del hogar.',
+        categoria: 'Desinfectantes',
+        tamano: '500ml',
+        valor: 8500
+      },
+      {
+        _id: '2',
+        nombre: 'Limpiador de Pisos',
+        imagen: 'https://via.placeholder.com/300x300?text=Limpiador',
+        descripcion: 'Limpiador especializado para pisos de cerámica y mármol.',
+        categoria: 'Limpiadores',
+        tamano: '750ml',
+        valor: 9500
+      },
+      {
+        _id: '3',
+        nombre: 'Jabón Líquido para Manos',
+        imagen: 'https://via.placeholder.com/300x300?text=Jabon',
+        descripcion: 'Jabón líquido suave y espumoso para lavar manos.',
+        categoria: 'Jabones',
+        tamano: '250ml',
+        valor: 4500
+      }
+    ];
+    productosFiltrados = productosActuales;
+    mostrarProductos();
+    cargarCategorias();
   }
 }
 
@@ -85,31 +172,62 @@ function mostrarProductos() {
 
 async function cargarCategorias() {
   try {
+    console.log('Cargando categorías desde API...');
     const response = await fetch(`${API_URL}/categorias`);
-    const categorias = await response.json();
     
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    let categorias = await response.json();
+    console.log('Categorías recibidas del servidor:', categorias);
+    
+    // Si el array está vacío o nulo, usar categorías de ejemplo
+    if (!categorias || categorias.length === 0) {
+      console.log('⚠️ No hay categorías del servidor, usando categorías de ejemplo');
+      categorias = ['Desinfectantes', 'Limpiadores', 'Jabones', 'Detergentes', 'Aseo y limpieza'];
+    }
+    
+    // Llenar el select de categorías en catálogo
     const select = document.getElementById('categoryFilter');
     if (select) {
+      console.log('Rellenando select con', categorias.length, 'categorías');
       select.innerHTML = '<option value="">Todas las categorías</option>';
       categorias.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
         select.appendChild(option);
+        console.log('Opción añadida:', cat);
       });
+    } else {
+      console.warn('⚠️ No se encontró el elemento categoryFilter');
     }
 
-    // Cargar categorías en página principal
+    // Cargar categorías en página principal (si existe el elemento)
     const gridCategorias = document.getElementById('categoriesGrid');
     if (gridCategorias) {
+      console.log('Rellenando grid de categorías');
       gridCategorias.innerHTML = categorias.map(cat => `
-        <a href="pages/catalogo.html?categoria=${cat}" class="category-item">
+        <a href="pages/catalogo.html?categoria=${encodeURIComponent(cat)}" class="category-item">
           ${cat}
         </a>
       `).join('');
     }
   } catch (error) {
     console.error('Error cargando categorías:', error);
+    // Si hay error, usar categorías de ejemplo
+    const categoriasEjemplo = ['Desinfectantes', 'Limpiadores', 'Jabones', 'Detergentes', 'Aseo y limpieza'];
+    const select = document.getElementById('categoryFilter');
+    if (select) {
+      select.innerHTML = '<option value="">Todas las categorías</option>';
+      categoriasEjemplo.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        select.appendChild(option);
+      });
+    }
   }
 }
 
