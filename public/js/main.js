@@ -50,16 +50,23 @@ async function cargarCategorias() {
       categorias = defaultCategories;
     }
     
+    // Deduplicar categorías (remover duplicados)
+    const categoriasUnicas = [...new Set(
+      categorias
+        .filter(cat => cat && String(cat).trim())
+        .map(cat => String(cat).trim())
+    )];
+    
+    console.log('✅ Categorías únicas después de deduplicación:', categoriasUnicas);
+    
     // Renderizamos las categorías
-    gridCategorias.innerHTML = categorias
-      .filter(cat => cat && String(cat).trim())
+    gridCategorias.innerHTML = categoriasUnicas
       .map(cat => {
-        const categoria = String(cat).trim();
         return `
-          <a href="pages/catalogo.html?categoria=${encodeURIComponent(categoria)}" 
+          <a href="pages/catalogo.html?categoria=${encodeURIComponent(cat)}" 
              class="category-item"
-             data-category="${categoria.toLowerCase()}">
-            ${categoria}
+             data-category="${cat.toLowerCase()}">
+            ${cat}
           </a>
         `;
       })

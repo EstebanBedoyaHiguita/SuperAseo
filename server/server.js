@@ -334,15 +334,22 @@ app.get('/api/categorias', async (req, res) => {
     const categorias = await Producto.distinct('categoria');
     console.log('Categorías encontradas en BD:', categorias);
     
+    // Filtrar categorías vacías o nulas y remover duplicados
+    const categoriasValidas = [...new Set(
+      categorias
+        .filter(cat => cat && String(cat).trim() !== '')
+        .map(cat => String(cat).trim())
+    )];
+    
+    console.log('Categorías únicas después del filtrado:', categoriasValidas);
+    
     // Si no hay categorías o está vacío, devolver de ejemplo
-    if (!categorias || categorias.length === 0) {
-      console.log('⚠️ No hay categorías en BD, devolviendo categorías de ejemplo');
+    if (!categoriasValidas || categoriasValidas.length === 0) {
+      console.log('⚠️ No hay categorías válidas en BD, devolviendo categorías de ejemplo');
       const categoriasEjemplo = ['Desinfectantes', 'Limpiadores', 'Jabones', 'Detergentes', 'Aseo y limpieza'];
       return res.json(categoriasEjemplo);
     }
     
-    // Filtrar categorías vacías o nulas
-    const categoriasValidas = categorias.filter(cat => cat && cat.trim() !== '');
     res.json(categoriasValidas);
   } catch (err) {
     console.log('⚠️ Error obteniendo categorías:', err.message);

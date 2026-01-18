@@ -188,12 +188,21 @@ async function cargarCategorias() {
       categorias = ['Desinfectantes', 'Limpiadores', 'Jabones', 'Detergentes', 'Aseo y limpieza'];
     }
     
+    // Deduplicar categorías (remover duplicados)
+    const categoriasUnicas = [...new Set(
+      categorias
+        .filter(cat => cat && String(cat).trim())
+        .map(cat => String(cat).trim())
+    )];
+    
+    console.log('Categorías únicas después de deduplicación:', categoriasUnicas);
+    
     // Llenar el select de categorías en catálogo
     const select = document.getElementById('categoryFilter');
     if (select) {
-      console.log('Rellenando select con', categorias.length, 'categorías');
+      console.log('Rellenando select con', categoriasUnicas.length, 'categorías');
       select.innerHTML = '<option value="">Todas las categorías</option>';
-      categorias.forEach(cat => {
+      categoriasUnicas.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
@@ -208,7 +217,7 @@ async function cargarCategorias() {
     const gridCategorias = document.getElementById('categoriesGrid');
     if (gridCategorias) {
       console.log('Rellenando grid de categorías');
-      gridCategorias.innerHTML = categorias.map(cat => `
+      gridCategorias.innerHTML = categoriasUnicas.map(cat => `
         <a href="pages/catalogo.html?categoria=${encodeURIComponent(cat)}" class="category-item">
           ${cat}
         </a>
