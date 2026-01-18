@@ -2,7 +2,8 @@
 // PÁGINA PRINCIPAL
 // ====================================
 
-const API_URL = 'http://localhost:3000/api';
+// Usar la URL dinámicamente para funcionar en producción
+const API_URL = `${window.location.origin}/api`;
 
 document.addEventListener('DOMContentLoaded', () => {
   cargarCategorias();
@@ -18,7 +19,7 @@ async function cargarCategorias() {
   }
   
   // Categorías por defecto en caso de error
-  const defaultCategories = ['Aseo y limpieza', 'Limpieza del hogar', 'Productos de baño'];
+  const defaultCategories = ['Desinfectantes', 'Limpiadores', 'Jabones', 'Detergentes', 'Aseo y limpieza'];
   
   try {
     console.log(`🌐 Intentando conectar a: ${API_URL}/categorias`);
@@ -28,7 +29,7 @@ async function cargarCategorias() {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      credentials: 'include' // Importante para manejar cookies si es necesario
+      credentials: 'include'
     });
     
     console.log('📡 Estado de la respuesta:', response.status);
@@ -39,7 +40,6 @@ async function cargarCategorias() {
       categorias = await response.json();
       console.log('✅ Categorías recibidas:', categorias);
     } else {
-      // Si hay un error, usamos las categorías por defecto
       console.warn('⚠️ Usando categorías por defecto debido a un error en la respuesta');
       categorias = defaultCategories;
     }
@@ -52,7 +52,7 @@ async function cargarCategorias() {
     
     // Renderizamos las categorías
     gridCategorias.innerHTML = categorias
-      .filter(cat => cat && String(cat).trim()) // Filtramos valores nulos o vacíos
+      .filter(cat => cat && String(cat).trim())
       .map(cat => {
         const categoria = String(cat).trim();
         return `
@@ -71,7 +71,6 @@ async function cargarCategorias() {
     console.error('❌ Error al cargar categorías:', error);
     console.warn('⚠️ Usando categorías por defecto debido a un error');
     
-    // En caso de cualquier error, mostramos las categorías por defecto
     gridCategorias.innerHTML = defaultCategories
       .map(cat => `
         <a href="pages/catalogo.html?categoria=${encodeURIComponent(cat)}" 
@@ -81,22 +80,6 @@ async function cargarCategorias() {
         </a>
       `)
       .join('');
-  } catch (error) {
-    console.error('❌ Error al cargar categorías:', error);
-    console.warn('⚠️ Usando categorías por defecto debido a un error');
-    
-    // En caso de cualquier error, mostramos las categorías por defecto
-    if (gridCategorias) {
-      gridCategorias.innerHTML = defaultCategories
-        .map(cat => `
-          <a href="pages/catalogo.html?categoria=${encodeURIComponent(cat)}" 
-             class="category-item"
-             data-category="${cat.toLowerCase()}">
-            ${cat}
-          </a>
-        `)
-        .join('');
-    }
   } finally {
     console.log('=== FIN DE CARGA DE CATEGORÍAS ===');
   }
