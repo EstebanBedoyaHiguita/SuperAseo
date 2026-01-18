@@ -296,6 +296,23 @@ body {
 }
 
 /* ========================================
+   PRODUCTOS DESTACADOS
+   ======================================== */
+
+.featured-products {
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  background-color: #f9f9f9;
+}
+
+.featured-products h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--color-dark);
+}
+
+/* ========================================
    PÁGINA (ENCABEZADO)
    ======================================== */
 
